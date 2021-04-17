@@ -5,8 +5,7 @@
             [giggin.components.orders :refer [orders]]
             [giggin.components.footer :refer [footer]]))
 
-(defn app
-  []
+(defn app []
   [:div.container
    [header]
    [gigs]
