@@ -29,11 +29,12 @@
       []
       [:main
        [:div.gigs
-         [:button.add-gig
-          {:on-click #(toggle-modal {:active true :gig initial-values})}
-          [:div.add__title
-           [:i.icon.icon--plus]
-           [:p "Add gig"]]]
+        (when @state/user
+          [:button.add-gig
+           {:on-click #(toggle-modal {:active true :gig initial-values})}
+           [:div.add__title
+            [:i.icon.icon--plus]
+            [:p "Add gig"]]])
         [gig-editor {:modal modal
                      :values values
                      :upsert-gig upsert-gig
@@ -41,14 +42,15 @@
                      :initial-values initial-values}]
         (doall (for [{:keys [id img title price desc sold-out] :as gig} (vals @state/gigs)]
                  [:div.gig {:key id}
-                  [:img.gig__artwork.gig__edit {:src img
-                                                :alt title
-                                                :on-click #(toggle-modal {:active true
-                                                                          :gig gig})}]
+                  [:img.gig__artwork {:class (when @state/user "gig__edit")
+                                      :src img
+                                      :alt title
+                                      :on-click (when @state/user #(toggle-modal {:active true
+                                                                                  :gig gig}))}]
                   [:div.gig__body
                    [:div.gig__title
                     (if sold-out
-                      [:div.sold-out.float--right "Soldout"]
+                      [:div.sold-out.float--right "Sold out"]
                       [:div.btn.btn--primary.float--right.tooltip
                        {:data-tooltip "Add to order"
                         :on-click #(add-to-order id)}
