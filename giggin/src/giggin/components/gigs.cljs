@@ -5,7 +5,10 @@
   []
   [:main
    [:div.gigs
+
+    ;; destructure atom to extract id, img, title, etc.
     (for [{:keys [id img title price desc]} (vals @state/gigs)]
+      ;; using 'for' instead of 'map'
       [:div.gig {:key id}
        [:img.gig__artwork {:src img :alt title}]
        [:div.gig__body
